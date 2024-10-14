@@ -3,6 +3,7 @@ package vn.iotstar.entity;
 import java.io.Serializable;
 import java.util.List;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "categories")
@@ -13,63 +14,61 @@ public class Category implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "categoryId")
-    private int categoryId;
+    @Column(name = "CategoryId")
+    private int categoryid;
 
-    @Column(name = "categoryname", columnDefinition = "NVARCHAR(255) NULL")
+    @Column(name = "CategoryName", columnDefinition = "nvarchar(50) not null")
+    @NotEmpty(message = "Không được phép rỗng")
     private String categoryname;
 
-    @Column(name = "images", columnDefinition = "NVARCHAR(255) NULL")
+    @Column(name = "Images", columnDefinition = "nvarchar(500) null")
     private String images;
 
-    @Column(name = "status")
-    private int status;
+    public int getCategoryid() {
+		return categoryid;
+	}
+
+	public void setCategoryid(int categoryid) {
+		this.categoryid = categoryid;
+	}
+
+	public String getCategoryname() {
+		return categoryname;
+	}
+
+	public void setCategoryname(String categoryname) {
+		this.categoryname = categoryname;
+	}
+
+	public String getImages() {
+		return images;
+	}
+
+	public void setImages(String images) {
+		this.images = images;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public List<Video> getVideos() {
+		return videos;
+	}
+
+	public void setVideos(List<Video> videos) {
+		this.videos = videos;
+	}
+
+	private int status;
 
     // bi-directional many-to-one association to Video
-    @OneToMany(mappedBy = "categories")
+    @OneToMany(mappedBy = "category")
     private List<Video> videos;
-
-    public Category() {}
-
-    public int getCategoryId() {
-        return this.categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public String getCategoryname() {
-        return categoryname;
-    }
-
-    public void setCategoryname(String categoryname) {
-        this.categoryname = categoryname;
-    }
-
-    public String getImages() {
-        return images;
-    }
-
-    public void setImages(String images) {
-        this.images = images;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public List<Video> getVideos() {
-        return this.videos;
-    }
-
-    public void setVideos(List<Video> videos) {
-        this.videos = videos;
-    }
 
     public Video addVideo(Video video) {
         getVideos().add(video);
@@ -83,4 +82,5 @@ public class Category implements Serializable {
         return video;
     }
 }
+
 
